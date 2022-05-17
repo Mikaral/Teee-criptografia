@@ -5,7 +5,7 @@ d = enchant.Dict("en_US")
 
 def getFileLines(path):
     f = open("Teee-criptografia/" + path +".txt", "r")
-    lines = list(map(lambda x: x.rstrip(), f.readlines()))
+    lines = list(map(lambda x: x.rstrip().strip("\""), f.readlines()))
     f.close()
     return lines
 
@@ -22,9 +22,10 @@ def caesar(lines, k, mode):
 
         for letter in line:
             if(letter != " " and letter not in string.punctuation):
-                lineAux += string.ascii_letters[string.ascii_letters.index(letter) + k]
+                lineAux += string.ascii_letters[(string.ascii_letters.index(letter) % 52) + k]
             else:
                 lineAux += letter
+        
         
         lines[i] = lineAux
     
@@ -41,8 +42,3 @@ def breakCypher(path):
         k += 1
     
     return k - 1
-
-
-#lines = caesar(getFileLines("text"), 3, True)
-#writeLines("text", lines)
-print(breakCypher("text"))
