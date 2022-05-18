@@ -6,15 +6,21 @@ d = enchant.Dict("en_US")
 k = 3
 
 def getFileLines(path):
-    f = open(path, "r")
-    lines = list(map(lambda x: x.rstrip().strip("\""), f.readlines()))
-    f.close()
-    return lines
+    try:
+        f = open(path, "r")
+        lines = list(map(lambda x: x.rstrip().strip("\""), f.readlines()))
+        f.close()
+        return lines
+    except:
+        raise FileNotFoundError("There is no such file with this name")
 
 def writeLines(path, lines):
-    f = open(path, "w")
-    for line in lines: f.write(line + "\n")
-    f.close()
+    try:
+        f = open(path, "w")
+        for line in lines: f.write(line + "\n")
+        f.close()
+    except:
+        raise Exception("Something went wrong when writing to the file")
 
 def shiftLetter(letter, k):
     if(letter in string.ascii_letters):
@@ -43,3 +49,42 @@ def breakCypher(path):
         k += 1
     
     return k - 1
+
+
+def getUserVariables():
+    path = input("Write the path of the file: ")
+    key = input("Write the key: ")
+
+    return (path + ".txt", int(key))
+
+
+def encriptFile(mode):
+    userInputs = getUserVariables()
+    lines = caesar(getFileLines(userInputs[0]), userInputs[1], mode)
+
+    if(mode):
+        print("Writing encrypted text on ../encryptedText.txt")
+    else:
+        print("Writing decrypted text on ../encryptedText.txt")
+    writeLines("../encryptedText.txt", lines)
+
+
+
+usrOp = -1
+while(usrOp != 0):
+    print("------------------ Caesar Cypher ------------------")
+    print("0) Close program")
+    print("1) Encript a file")
+    print("2) Decript a file")
+    print("3) Break a cipher")
+    usrOp = int(input("Choose a option: "))
+
+    if(usrOp == 1):
+        encriptFile(True)
+    elif(usrOp == 2):
+        encriptFile(False)
+    elif(usrOp == 3):
+        key = breakCypher(input("Write the path of the file: ") + ".txt")
+        print("The key is: {}".format(key))
+    elif(usrOp != 0):
+        print("This is not a valid option")
