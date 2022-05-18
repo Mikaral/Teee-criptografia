@@ -68,7 +68,9 @@ def breakCypher(alphabet, alphabetFrequency, lines):
     solution = dict({list(alphabetFreqAux.keys())[x] : list(englishLetterFreq.keys())[x].lower() for x in range(26)})
     solution = dict(sorted(solution.items(), key = lambda item: item[1]))
     print("Writing possible key on solution.txt")
-    writeLines("solution.txt", mas(lines, False, list(solution.keys())))
+    writeLines("solution.txt", solution.keys())
+    print("Writing decrypted text on decrypted.txt")
+    writeLines("decryptedText.txt", mas(lines, False, list(solution.keys())))
 
 def encriptFile(mode):
     key = getFileLines("kTable.txt")

@@ -50,13 +50,11 @@ def breakCypher(path):
     
     return k - 1
 
-
 def getUserVariables():
     path = input("Write the path of the file: ")
     key = input("Write the key: ")
 
     return (path + ".txt", int(key))
-
 
 def encriptFile(mode):
     userInputs = getUserVariables()
@@ -67,8 +65,6 @@ def encriptFile(mode):
     else:
         print("Writing decrypted text on ../encryptedText.txt")
     writeLines("../encryptedText.txt", lines)
-
-
 
 usrOp = -1
 while(usrOp != 0):
