@@ -29,17 +29,17 @@ def generateTable():
     writeLines("../kTable.txt", randomTable)
     return randomTable
 
-def shiftLetter(letter, mod):
-    if(letter in key and mod):
-        letter = key[string.ascii_lowercase.index(letter) % 26]
-    elif(letter in key):
-        letter = string.ascii_lowercase[key.index(letter) % 26]
+def shiftLetter(letter, mod, keyAux):
+    if(letter in keyAux and mod):
+        letter = keyAux[string.ascii_lowercase.index(letter) % 26]
+    elif(letter in keyAux):
+        letter = string.ascii_lowercase[keyAux.index(letter) % 26]
     
     return letter
 
-def mas(lines, mode):
+def mas(lines, mode, key):
     for i,line in enumerate(lines):
-        partial_func = partial(shiftLetter, mod = mode)
+        partial_func = partial(shiftLetter, mod = mode, keyAux = key)
         lineAux = str("".join(map(partial_func, line)))
         lines[i] = lineAux
     
@@ -64,5 +64,3 @@ def crushCypher(alphabet, alphabetFrequency, lines):
     solution = dict({list(alphabetFreqAux.keys())[x] : list(englishLetterFreq.keys())[x].lower() for x in range(26)})
     solution = dict(sorted(solution.items(), key = lambda item: item[1]))
     writeLines("../solution.txt", mas(lines, False, list(solution.keys())))
-
-writeLines("../testC.txt", mas(lines, False))
