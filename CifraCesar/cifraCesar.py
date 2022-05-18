@@ -43,6 +43,3 @@ def breakCypher(path):
         k += 1
     
     return k - 1
-
-lines = getFileLines("../test.txt")
-writeLines("../test.txt", caesar(lines, 3, False))
