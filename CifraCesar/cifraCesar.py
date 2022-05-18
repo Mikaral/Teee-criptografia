@@ -1,7 +1,9 @@
 import enchant
 import string
+from functools import partial
 
 d = enchant.Dict("en_US")
+k = 3
 
 def getFileLines(path):
     f = open(path, "r")
@@ -14,26 +16,24 @@ def writeLines(path, lines):
     for line in lines: f.write(line + "\n")
     f.close()
 
-def caesar(lines, k, mode):
-    k = k if mode else k*-1
+def shiftLetter(letter, k):
+    if(letter in string.ascii_letters):
+        letter = string.ascii_letters[(string.ascii_letters.index(letter) + k) % 52]
+    
+    return letter
+
+def caesar(lines, k,  mode):
+    key = k if mode else k*-1
+    partial_func = partial(shiftLetter, k = key)
 
     for i,line in enumerate(lines):
-        lineAux = ""
-
-        for letter in line:
-            if(letter in string.ascii_letters):
-                lineAux += string.ascii_letters[(string.ascii_letters.index(letter) + k) % 52]
-            else:
-                lineAux += letter
-
+        lineAux = str("".join(map(partial_func, line)))
         lines[i] = lineAux
     
     return lines
 
-
 def breakCypher(path):
     k = 1
-    counter = 0
     correctKey = False
     
     while(not correctKey and k < 50):
@@ -43,3 +43,6 @@ def breakCypher(path):
         k += 1
     
     return k - 1
+
+lines = getFileLines("../test.txt")
+writeLines("../test.txt", caesar(lines, 3, False))
