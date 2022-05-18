@@ -77,11 +77,11 @@ def encriptFile(mode):
 
     if(mode):
         print("Encrypting text.txt on encriptedText.txt")
-        print("Assuming file path text.txt")
+        print("Assuming file path of text.txt")
         lines = mas(getFileLines("text.txt"), mode, key)
     else:
         print("Decrypting text.txt on encriptedText.txt")
-        print("Assuming file path encriptedText.txt")
+        print("Assuming file path of encriptedText.txt")
         lines = mas(getFileLines("encriptedText.txt"), mode, key)
     
     writeLines("encriptedText.txt", lines)
