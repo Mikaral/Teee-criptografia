@@ -26,7 +26,7 @@ def writeLines(path, lines):
         for line in lines: f.write(line + "\n")
         f.close()
     except:
-        raise Exception("Something went wrong when writing to the file")
+        raise RuntimeError("Something went wrong when writing to the file")
 
 def generateTable():
     randomTable = random.sample(string.ascii_lowercase, len(string.ascii_lowercase))

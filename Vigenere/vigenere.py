@@ -16,7 +16,7 @@ def writeLines(path, lines):
         for line in lines: f.write(str(line) + "\n")
         f.close()
     except:
-        raise Exception("Something went wrong when writing to the file")
+        raise RuntimeError("Something went wrong when writing to the file")
     
 def generateKeys(size = 6):
     keys = []
