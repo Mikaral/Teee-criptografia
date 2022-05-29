@@ -3,7 +3,7 @@ import string
 def getFileLines(path):
     try:
         f = open(path, "r")
-        lines = list(map(lambda x: x.rstrip().strip(string.punctuation), f.readlines()))
+        lines = list(map(lambda x: x.strip(string.punctuation).replace("'", ""), f.readlines()))
         f.close()
         return lines
     except:
