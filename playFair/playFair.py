@@ -1,6 +1,11 @@
 import string
 
 def getFileLines(path):
+    """ 
+    Função que retorna uma lista de strings de um arquivo a partir 
+    do caminho do mesmo. Retorna um FileNotFoundError caso o arquivo
+    não exista.
+    """
     try:
         f = open(path, "r")
         lines = list(map(lambda x: x.strip(string.punctuation).replace("'", ""), f.readlines()))
@@ -10,6 +15,9 @@ def getFileLines(path):
         raise FileNotFoundError("There is no such file with this name")
 
 def writeLines(path, lines):
+    """
+    Escreve uma linha de strings (o parâmetro lines) em um determinado arquivo.
+    """
     try:
         f = open(path, "w")
         for line in lines: f.write(line + "\n")
@@ -18,6 +26,9 @@ def writeLines(path, lines):
         raise Exception("Something went wrong when writing to the file")
 
 def createMatrixKey(key):
+    """
+    Função que cria a matriz chave da cifra Playfair.
+    """
     key = key.lower()
     matrix = [[0 for i in range (5)] for j in range(5)]
     letters_added = []
@@ -52,6 +63,9 @@ def createMatrixKey(key):
     return matrix
 
 def indexOf(letter,matrix):
+    """
+    Função auxiliar que retorna o índice de uma letra na matriz chave.
+    """
     for i in range (5):
         try:
             index = matrix[i].index(letter)
@@ -60,6 +74,12 @@ def indexOf(letter,matrix):
             continue
 
 def separateSameLetters(lines):
+    """
+    Função auxiliar que trata algumas condições da cifra Playfair.
+    As condições são adicionar a letra 'x' entre duas letras repetidas
+    e adicionar um x no final de uma palavra caso ela tinha um número ímpar
+    de letras.
+    """
     for i, line in enumerate(lines):
         index = 0
         
@@ -83,6 +103,10 @@ def separateSameLetters(lines):
     return lines
 
 def pf(key, lines, encrypt=True):
+    """
+    Cifra ou decifra uma lista (o parâmetro lines) de strings utilizando o método Playfair.
+    Utiliza o parâmetro key como a matriz chave. Se encrypt for verdadeiro, cifra. Caso contrário decifra.
+    """
     if encrypt:
         lines = separateSameLetters(lines)
 
@@ -99,6 +123,10 @@ def pf(key, lines, encrypt=True):
         
 
 def playfair(matrix, message, encrypt=True):
+    """
+    Função auxiliar a função pf, que cifra uma string utilizando o método Playfair.
+    Utiliza o parâmetro matrix como a matriz chave. Se encrypt for verdadeiro, cifra, caso contrário decifra.
+    """
     inc = 1
     if encrypt==False:
         inc = -1
@@ -118,6 +146,9 @@ def playfair(matrix, message, encrypt=True):
     return cipher_text
 
 def main():
+    """
+    CLI do programa
+    """
     usrOp = -1
     path = input("Write the path of the desired file: ")
     lines = getFileLines(path)

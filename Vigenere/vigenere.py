@@ -2,6 +2,11 @@ import string
 import random
 
 def getFileLines(path):
+    """ 
+    Função que retorna uma lista de strings de um arquivo a partir 
+    do caminho do mesmo. Retorna um FileNotFoundError caso o arquivo
+    não exista.
+    """
     try:
         f = open(path, "r")
         lines = list(map(lambda x: x.rstrip().strip("\""), f.readlines()))
@@ -11,6 +16,9 @@ def getFileLines(path):
         raise FileNotFoundError("There is no such file with this name")
 
 def writeLines(path, lines):
+    """
+    Escreve uma linha de strings (o parâmetro lines) em um determinado arquivo.
+    """
     try:
         f = open(path, "w")
         for line in lines: f.write(str(line) + "\n")
@@ -19,6 +27,10 @@ def writeLines(path, lines):
         raise RuntimeError("Something went wrong when writing to the file")
     
 def generateKeys(size = 6):
+    """
+    Função que gera uma lista de chaves que determinaram as diferentes iterações
+    de cifras de cesar utilizadas.
+    """
     keys = []
     for i in range(size):
         keys.append(random.randint(1,25))
@@ -29,19 +41,30 @@ def generateKeys(size = 6):
     return keys
 
 def shiftLetter(letter, k):
+    """
+    Desloca uma letra em k posições no alfabeto.
+    """
     if(letter in string.ascii_letters):
         letter = string.ascii_letters[(string.ascii_letters.index(letter) + k) % 52]
     
     return letter
 
 def vigenere(lines, keys, mode):
-    
+    """
+    Cifra ou decifra, utilizando a Cifra de Vigènere, uma lista de 
+    strings utilizando o parâmetro k como chave. Se mode for verdadeiro, 
+    a função irá cifrar. Caso contrário, irá decifrar.
+    """
     for i, line in enumerate(lines):
         lines[i] = caesar(line, int(keys[i % len(keys)]), mode)
     
     return lines
 
 def caesar(line, k,  mode):
+    """
+    Cifra ou decifra, utilizando a cifra de césar, uma lista de strings utilizando o parâmetro k como chave.
+    Se mode for verdadeiro, a função irá cifrar. Caso contrário, irá decifrar.
+    """
     key = k if mode else k*-1
     lineAux = ""
 
@@ -51,6 +74,9 @@ def caesar(line, k,  mode):
     return lineAux
 
 def getUserVariables(mode):
+    """
+    Função auxiliar que recebe as entradas do usuário.
+    """
     key = 0
     path = input("Write the path of the file: ")
     if mode:
@@ -59,6 +85,10 @@ def getUserVariables(mode):
     return (path, int(key))
 
 def encriptFile(mode):
+    """
+    Função auxiliar para encriptação ou decriptação de um texto a partir das
+    entradas do usuário.
+    """
     userInputs = getUserVariables(mode)
     
     if(mode):
@@ -74,6 +104,9 @@ def encriptFile(mode):
 
 
 def main():
+    """
+    CLI do programa
+    """
     usrOp = -1
     while(usrOp != 0):
         print("------------------ Vigenere Chiper ------------------")
