@@ -10,7 +10,7 @@ def getLog(n):
         if(n == (x.integer_representation())):
             return i
 
-N = matrix(k, [[a^getLog(1),a^getLog(4)], [a^getLog(4),a^getLog(1)]])
+N = matrix(k, [[a^(k.int_to_log(4)),a^(k.int_to_log(1))], [a^(k.int_to_log(1)),a^(k.int_to_log(4))]])
 sBox = matrix([[9,4,10,11],[13,1,8,5],[6,2,0,3],[12,14,15,7]])
 
 
@@ -61,13 +61,12 @@ def embaralharColunas(estado):
     return N*M
 
 def gFunction(wA,wB, rodada):
-    wB[0], wB[1] = wB[1], wB[0]
+    wBAux = wB.copy()
+    wBAux[0], wBAux[1] = wBAux[1], wBAux[0]
     w1Aux = []
     for i in range(2):
-        #print('{} {}'.format(wA[i], wB[i]))
-        w1Aux.append(sBox[binIndex(wB[i], 1)][binIndex(wB[i], 0)])
+        w1Aux.append(sBox[binIndex(wBAux[i], 1)][binIndex(wBAux[i], 0)])
         w1Aux[i] = (rc[rodada - 1][i] ^^ w1Aux[i])
-    print(w1Aux)
     return w1Aux
 
 def expandirChave(wA, wB, rodada):
@@ -77,12 +76,5 @@ def expandirChave(wA, wB, rodada):
     for i in range(2):
         wC.append(wA[i] ^^ gFun[i])
         wD.append(wC[i] ^^ wB[i])
-        #print('{} {}'.format(wC[i], wD[i]))
-    #wC = wA ^^ gFunction(wA, wB, rodada)
-    #wD = wC ^^ wD
     return (wC, wD)
 
-#print(gFunction(w0,w1,1))
-w23 = expandirChave(w0, w1, 1)
-#print(w23)
-print(expandirChave(w23[0], w23[1], 2))
